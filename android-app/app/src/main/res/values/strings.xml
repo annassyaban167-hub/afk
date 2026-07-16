@@ -1,4 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">App Blocker</string>
-    <string name="accessibility_description">AFK App Blocker usage stats accessibility helper to manage foreground app execution constraints.</string>
+    <string name="app_name">AFK App Blocker</string>
+    <string name="accessibility_description">AFK App Blocker monitors foreground apps and enforces time limits with accessibility events.</string>
+
+    <string-array name="blocking_modes">
+        <item>Close after timer expires</item>
+        <item>Close immediately on open</item>
+    </string-array>
 </resources>

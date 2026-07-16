@@ -6,5 +6,6 @@ data class BlockedApp(
     val limitMinutes: Int,
     var remainingSeconds: Int,
     val mode: String,
-    var isBlocked: Boolean = false
+    var isBlocked: Boolean = false,
+    var enabled: Boolean = true
 )

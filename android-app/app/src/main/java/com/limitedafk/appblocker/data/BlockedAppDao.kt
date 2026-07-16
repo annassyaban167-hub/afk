@@ -4,8 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class BlockedAppDao(context: Context) {
 
@@ -22,7 +20,7 @@ class BlockedAppDao(context: Context) {
     }
 
     private class DbHelper(context: Context) : SQLiteOpenHelper(
-        context, "app_blocker_db", null, 1
+        context, "app_blocker_db", null, 2
     ) {
         override fun onCreate(db: SQLiteDatabase) {
             db.execSQL("""
@@ -36,7 +34,17 @@ class BlockedAppDao(context: Context) {
                 )
             """)
         }
-        override fun onUpgrade(db: SQLiteDatabase, old: Int, new: Int) {}
+
+        override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+            if (oldVersion < 2) {
+                db.execSQL("ALTER TABLE $TABLE ADD COLUMN enabled INTEGER NOT NULL DEFAULT 1")
+            }
+        }
+
+        override fun onConfigure(db: SQLiteDatabase) {
+            super.onConfigure(db)
+            db.setForeignKeyConstraintsEnabled(true)
+        }
     }
 
     private fun <T> read(block: (SQLiteDatabase) -> T): T {
@@ -49,16 +57,19 @@ class BlockedAppDao(context: Context) {
         try { return block(db) } finally { db.close() }
     }
 
-    private fun cursorToApp(c: android.database.Cursor): BlockedApp = BlockedApp(
-        packageName = c.getString(c.getColumnIndexOrThrow(COL_PKG)),
-        appName = c.getString(c.getColumnIndexOrThrow(COL_NAME)),
-        limitMinutes = c.getInt(c.getColumnIndexOrThrow(COL_LIMIT)),
-        remainingSeconds = c.getInt(c.getColumnIndexOrThrow(COL_REMAINING)),
-        mode = c.getString(c.getColumnIndexOrThrow(COL_MODE)),
-        isBlocked = c.getInt(c.getColumnIndexOrThrow(COL_BLOCKED)) != 0
-    )
-
-    fun getAllFlow(): Flow<List<BlockedApp>> = MutableStateFlow(getAll())
+    // add enabled column support
+    private fun cursorToApp(c: android.database.Cursor): BlockedApp {
+        val colEnabled = try { c.getColumnIndexOrThrow("enabled") } catch (_: Exception) { -1 }
+        return BlockedApp(
+            packageName = c.getString(c.getColumnIndexOrThrow(COL_PKG)),
+            appName = c.getString(c.getColumnIndexOrThrow(COL_NAME)),
+            limitMinutes = c.getInt(c.getColumnIndexOrThrow(COL_LIMIT)),
+            remainingSeconds = c.getInt(c.getColumnIndexOrThrow(COL_REMAINING)),
+            mode = c.getString(c.getColumnIndexOrThrow(COL_MODE)),
+            isBlocked = c.getInt(c.getColumnIndexOrThrow(COL_BLOCKED)) != 0,
+            enabled = if (colEnabled >= 0) c.getInt(colEnabled) != 0 else true
+        )
+    }
 
     fun getAll(): List<BlockedApp> = read { db ->
         val list = mutableListOf<BlockedApp>()
@@ -91,6 +102,13 @@ class BlockedAppDao(context: Context) {
         db.execSQL("UPDATE $TABLE SET $COL_REMAINING = $COL_LIMIT * 60, $COL_BLOCKED = 0")
     }
 
+    fun getBlockedCount(): Int = read { db ->
+        val c = db.rawQuery("SELECT COUNT(*) FROM $TABLE WHERE $COL_BLOCKED = 1", null)
+        val count = if (c.moveToFirst()) c.getInt(0) else 0
+        c.close()
+        count
+    }
+
     private fun toValues(app: BlockedApp): ContentValues = ContentValues().apply {
         put(COL_PKG, app.packageName)
         put(COL_NAME, app.appName)
@@ -98,5 +116,6 @@ class BlockedAppDao(context: Context) {
         put(COL_REMAINING, app.remainingSeconds)
         put(COL_MODE, app.mode)
         put(COL_BLOCKED, if (app.isBlocked) 1 else 0)
+        put("enabled", if (app.enabled) 1 else 0)
     }
 }

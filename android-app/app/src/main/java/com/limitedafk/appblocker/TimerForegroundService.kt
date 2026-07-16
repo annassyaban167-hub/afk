@@ -8,8 +8,9 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.limitedafk.appblocker.data.AppDatabase
+import com.limitedafk.appblocker.utils.ShizukuHelper
+import com.limitedafk.appblocker.utils.TimerUtils
 import kotlinx.coroutines.*
-import java.util.*
 
 class TimerForegroundService : Service() {
 
@@ -44,7 +45,7 @@ class TimerForegroundService : Service() {
                 val currentApp = getForegroundApp()
                 if (currentApp != null) {
                     val app = database.blockedAppDao().getApp(currentApp)
-                    if (app != null) {
+                    if (app != null && app.enabled) {
                         if (app.remainingSeconds > 0 && app.mode == "CLOSE_AFTER_TIMEOUT") {
                             app.remainingSeconds -= 1
                             database.blockedAppDao().update(app)
@@ -56,7 +57,7 @@ class TimerForegroundService : Service() {
                         }
                     }
                 }
-                delay(1000) // Poll foreground app and update every 1 second
+                delay(1000)
             }
         }
     }
@@ -77,6 +78,13 @@ class TimerForegroundService : Service() {
     }
 
     private fun triggerBlockIntent(packageName: String) {
+        // Force-stop via Shizuku/DPM immediately
+        if (ShizukuHelper.isShizukuRunning) {
+            ShizukuHelper.forceStopWithShizuku(packageName)
+        } else {
+            ShizukuHelper.forceStopWithDPM(this, packageName)
+        }
+
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("BLOCKED_TRIGGERED", true)

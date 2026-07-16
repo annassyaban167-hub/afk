@@ -29,6 +29,12 @@
       "name": "Whatsapp",
       "packageName": "com.whatsapp",
       "durationMin": 30
+    },
+    {
+      "id": "6a045639",
+      "name": "TestApp",
+      "packageName": "com.test.app",
+      "durationMin": 30
     }
   ],
   "global": {
