@@ -77,7 +77,7 @@
                         android:letterSpacing="0.2"
                         android:backgroundTint="#7C3AED"
                         android:hint="******"
-                        android:hintTextColor="#666666" />
+                        android:textColorHint="#666666" />
 
                     <Button
                         android:id="@+id/btn_unlock"
@@ -128,7 +128,7 @@
                     android:textColor="#FFFFFF"
                     android:backgroundTint="#7C3AED"
                     android:hint="New 6-digit PIN"
-                    android:hintTextColor="#666666"
+                    android:textColorHint="#666666"
                     android:padding="12dp"
                     android:background="@drawable/input_bg"
                     android:layout_marginBottom="16dp" />
