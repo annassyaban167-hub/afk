@@ -48,7 +48,7 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp 8dp"
+            android:paddingLeft="4dp" android:paddingTop="4dp" android:paddingRight="8dp" android:paddingBottom="4dp"
             android:textColor="#DDD7FF"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -75,7 +75,7 @@
                 android:textSize="10sp"
                 android:backgroundTint="#7C3AED"
                 android:textColor="#FFFFFF"
-                android:padding="4dp 12dp" />
+                android:paddingLeft="4dp" android:paddingTop="4dp" android:paddingRight="12dp" android:paddingBottom="4dp" />
 
             <Button
                 android:id="@+id/btn_remove_limit"
@@ -85,7 +85,7 @@
                 android:textSize="10sp"
                 android:backgroundTint="#93000A"
                 android:textColor="#FFB4AB"
-                android:padding="4dp 12dp"
+                android:paddingLeft="4dp" android:paddingTop="4dp" android:paddingRight="12dp" android:paddingBottom="4dp"
                 android:visibility="gone" />
         </LinearLayout>
 
