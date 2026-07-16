@@ -1,0 +1,59 @@
+Create a web application for me (run on a mobile phone via a browser) with the following features:
+
+1. HOME PAGE
+- List of apps and games that I've added manually (app name + Android package name, e.g., com.whatsapp)
+- Add/edit/remove apps from the list button
+- Click on an app → go to the app's Settings page
+
+2. SETTINGS PAGE (per app)
+- Enter the time duration (minutes) for the app
+- "Start" button
+- When Start is pressed, the system will monitor the app via ADB. Once the app is opened (or after the time expires), it will automatically be force-stopped using the command adb shell am force-stop <package_name>
+- Termux can also be a target for monitoring/killing
+
+3. GLOBAL SETTINGS PAGE
+- Enter the ADB path/address (device IP: port for adb connect, for wireless debugging) — stored permanently and cannot be changed
+- Protect access to these settings with a 6-digit password  Number
+
+4. TECHNICAL
+- Backend uses Node.js/Python, which runs adb commands via child_process/subprocess (adb connect, adb shell dumpsys to check foreground apps, adb shell am force-stop to kill apps).
+- Simple web frontend (HTML/CSS/JS or React) that communicates with the backend via API.
+- App list, duration, and password data are stored in local storage/a small database (JSON/SQLite).
+- Runs on a local network (phone and debug device must be on the same Wi-Fi network), using ADB over Wi-Fi.
+
+Please provide the project structure, backend code (active app detection + force-stop), and frontend code (app list, settings, timer, start/stop, lock password).
+
+new request
+
+Create a native Android application (APK) to limit app/game usage time, with the following features:
+
+1. HOME PAGE
+- List of apps & games installed on the phone (automatically retrieved using PackageManager, displaying the icon + app name)
+- User selects which apps to restrict
+- Add/remove apps from the restricted list
+
+2. PER-APP SETTINGS
+- Input the daily usage time (minutes) for the app
+- Can set the mode: "close immediately when opened" or "close after X duration has expired"
+
+3. MONITORING & BLOCKING MECHANISM (without ADB/root)
+- Use UsageStatsManager (Usage Access permission) to monitor which apps are in the foreground
+- Use AccessibilityService to detect app opening (TYPE_WINDOW_STATE_CHANGED event) and immediately execute performGlobalAction(GLOBAL_ACTION_HOME) or return to the home screen once the restricted app is opened/timeout has expired
+- Run as a Foreground Service (with  (Persistent Notification) to keep monitoring even when the app is minimized, preventing the system from shutting it down (handles battery optimization exemption).
+
+4. GLOBAL SETTINGS / PROTECTION
+- Lock access to the Settings page with a 6-digit PIN (stored in EncryptedSharedPreferences).
+- To prevent the app from being easily uninstalled/shut down, use the Device Admin API (DevicePolicyManager) — require the user to activate it as a Device Administrator during initial setup.
+
+5. REQUIRED PERMISSIONS
+- PACKAGE_USAGE_STATS (Usage Access, manual request to Settings)
+- BIND_ACCESSIBILITY_SERVICE
+- SYSTEM_ALERT_WINDOW (if you want to display a "timeout" overlay before closing the app)
+- Request battery optimization ignore (so the service isn't killed by Doze mode)
+
+6. TECHNICAL
+- Kotlin, target minSdk 26+ (Accessibility & Usage Access are stable from here)
+ - Structure: MainActivity (list of apps), SettingsActivity (per app + global), AppBlockerAccessibilityService, TimerForegroundService
+- Data stored in the Room database (list of selected apps, duration, remaining daily time, midnight reset)
+
+Please create a complete Android Studio project structure (build.gradle, AndroidManifest.xml with all permission & service declarations, Kotlin code for each component above).

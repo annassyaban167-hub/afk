@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Limited Afk | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#93000a",
+                    "on-surface-variant": "#cfc2d6",
+                    "secondary-fixed": "#a2eeff",
+                    "surface-dim": "#131313",
+                    "surface-container": "#201f1f",
+                    "on-secondary-container": "#00515d",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-tint": "#ddb7ff",
+                    "outline": "#988d9f",
+                    "tertiary-fixed": "#ffdead",
+                    "inverse-surface": "#e5e2e1",
+                    "on-error-container": "#ffdad6",
+                    "on-primary": "#490080",
+                    "secondary-container": "#00cbe6",
+                    "on-primary-container": "#400071",
+                    "on-secondary-fixed-variant": "#004e5a",
+                    "secondary": "#5de6ff",
+                    "on-primary-fixed-variant": "#6900b3",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-variant": "#353534",
+                    "primary-container": "#b76dff",
+                    "surface-container-high": "#2a2a2a",
+                    "tertiary-fixed-dim": "#fabc4e",
+                    "background": "#131313",
+                    "on-tertiary-fixed": "#281900",
+                    "error": "#ffb4ab",
+                    "on-error": "#690005",
+                    "on-surface": "#e5e2e1",
+                    "on-primary-fixed": "#2c0051",
+                    "primary-fixed-dim": "#ddb7ff",
+                    "outline-variant": "#4d4354",
+                    "inverse-on-surface": "#313030",
+                    "on-tertiary-container": "#3a2600",
+                    "inverse-primary": "#842bd2",
+                    "on-secondary-fixed": "#001f25",
+                    "tertiary": "#fabc4e",
+                    "on-tertiary": "#432c00",
+                    "secondary-fixed-dim": "#2fd9f4",
+                    "primary-fixed": "#f0dbff",
+                    "on-tertiary-fixed-variant": "#604100",
+                    "surface": "#131313",
+                    "tertiary-container": "#bd871a",
+                    "surface-container-highest": "#353534",
+                    "on-secondary": "#00363e",
+                    "surface-bright": "#393939",
+                    "on-background": "#e5e2e1",
+                    "primary": "#ddb7ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "40px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "sm": "12px",
+                    "xl": "64px",
+                    "md": "24px",
+                    "base": "8px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display": ["Montserrat"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Montserrat"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(221, 183, 255, 0.3);
+            box-shadow: 0 0 20px rgba(221, 183, 255, 0.05);
+        }
+
+        .primary-gradient-btn {
+            background: linear-gradient(45deg, #A855F7, #7C3AED);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .primary-gradient-btn:hover {
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .terminal-block {
+            background: rgba(0, 0, 0, 0.4);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-glow-active {
+            box-shadow: 0 0 10px rgba(221, 183, 255, 0.4);
+        }
+
+        .status-glow-connected {
+            box-shadow: 0 0 10px rgba(93, 230, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background min-h-screen">
+<!-- Global Background Shader -->
+
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container/60 backdrop-blur-2xl border-r border-white/10 flex flex-col py-md z-50 hidden md:flex">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-base">
+<div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<div>
+<h1 class="font-display text-headline-md font-bold text-primary leading-tight">Limited Afk</h1>
+<p class="font-label-sm text-on-surface-variant opacity-70">ADB Time Manager</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-xs px-sm">
+<a class="flex items-center gap-sm px-md py-sm bg-primary/10 text-primary border-r-4 border-primary font-body-md transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-white/5 font-body-md transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>Add App</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-white/5 font-body-md transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span>ADB Connect</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-white/5 font-body-md transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg space-y-sm">
+<button class="w-full py-base rounded-xl primary-gradient-btn text-white font-bold text-label-md flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[20px]" data-icon="cable">cable</span>
+                Connect Device
+            </button>
+<div class="flex flex-col gap-xs pt-base">
+<a class="flex items-center gap-sm px-md py-xs text-on-surface-variant hover:text-primary font-label-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+                    Documentation
+                </a>
+<a class="flex items-center gap-sm px-md py-xs text-on-surface-variant hover:text-primary font-label-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="contact_support">contact_support</span>
+                    Support
+                </a>
+</div>
+</div>
+</aside>
+<!-- Top App Bar Shell (Mobile) -->
+<header class="md:hidden fixed top-0 w-full bg-surface/60 backdrop-blur-xl border-b border-white/10 h-20 px-md flex justify-between items-center z-50">
+<h1 class="font-display text-headline-md font-bold text-primary">Limited Afk</h1>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/30">
+<img class="w-full h-full object-cover" data-alt="A professional user profile avatar in a dark aesthetic, featuring a stylized minimalist character silhouette against a deep purple background with a subtle lens flare." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEP4hv7EIYjT5R49acrMUUQTLLMkfEt0cPHwW3LvxwhYrJOTi9sCEXHkgpuZqVq_hkE2c8-T3tXKndIK9M7Gny8iCM-6hxM_89-Q1a9UFlCFfomU4aiiVQQV5p5tk1XdhM8cIylBh1FrG0WPYdRE7gfzZetmB90-JbE-6dGdjqEo8JD7DJt44lhpuLbt71dlaAyShMGkrV8o9wNEmIZ6IjabClLNheR9HO7I2ITMTMs-zgzw6pqzTn"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-20 md:pt-0 min-h-screen">
+<div class="max-w-container-max mx-auto p-md md:p-xl space-y-xl">
+<!-- Welcome Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Command Center</h2>
+<p class="font-body-md text-on-surface-variant max-w-lg">Monitor your connected devices and manage application limits with surgical precision via ADB.</p>
+</div>
+<div class="flex items-center gap-sm glass-card px-md py-sm rounded-xl">
+<div class="w-3 h-3 rounded-full bg-secondary status-glow-connected animate-pulse"></div>
+<span class="font-label-md text-secondary">Pixel 7 Pro Active</span>
+</div>
+</header>
+<!-- Status & ADB Summary Bento -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+<!-- ADB Connection Card -->
+<div class="lg:col-span-1 glass-card rounded-xl p-md flex flex-col justify-between group">
+<div class="flex justify-between items-start mb-lg">
+<div class="p-sm bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[32px]" data-icon="adb">adb</span>
+</div>
+<span class="px-sm py-xs rounded-full bg-secondary/10 text-secondary text-label-sm border border-secondary/20">CONNECTED</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">ADB Status</h3>
+<p class="font-body-md text-on-surface-variant mb-md">Bridge is active. Data sync at 1.2ms latency.</p>
+<div class="terminal-block p-sm rounded-lg text-secondary/70 text-xs overflow-hidden">
+<code class="block">adb shell wm density 440</code>
+<code class="block text-white/40">&gt; status: success</code>
+</div>
+</div>
+</div>
+<!-- Global Limit Overview -->
+<div class="lg:col-span-2 glass-card rounded-xl p-md grid grid-cols-1 md:grid-cols-2 gap-md overflow-hidden relative">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
+<div class="flex flex-col justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-base">Focus Progress</h3>
+<p class="font-body-md text-on-surface-variant">Daily limit utilized: 45%</p>
+</div>
+<div class="space-y-sm">
+<div class="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full primary-gradient-btn w-[45%] rounded-full shadow-none"></div>
+</div>
+<div class="flex justify-between text-label-sm text-on-surface-variant">
+<span>3h 15m spent</span>
+<span>8h limit</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<div class="bg-white/5 p-sm rounded-lg flex flex-col justify-center border border-white/5">
+<span class="text-primary font-headline-md">12</span>
+<span class="text-label-sm text-on-surface-variant">Apps Tracked</span>
+</div>
+<div class="bg-white/5 p-sm rounded-lg flex flex-col justify-center border border-white/5">
+<span class="text-tertiary font-headline-md">04</span>
+<span class="text-label-sm text-on-surface-variant">Active Limits</span>
+</div>
+<div class="bg-white/5 p-sm rounded-lg flex flex-col justify-center border border-white/5">
+<span class="text-secondary font-headline-md">98%</span>
+<span class="text-label-sm text-on-surface-variant">Device Health</span>
+</div>
+<div class="bg-white/5 p-sm rounded-lg flex flex-col justify-center border border-white/5">
+<span class="text-error font-headline-md">01</span>
+<span class="text-label-sm text-on-surface-variant">Alert Triggered</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Apps Grid -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                        Managed Applications
+                    </h3>
+<div class="flex gap-sm">
+<button class="p-sm rounded-lg glass-card hover:text-primary">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-sm rounded-lg glass-card hover:text-primary">
+<span class="material-symbols-outlined" data-icon="sort">sort</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- App Card: WhatsApp -->
+<div class="glass-card rounded-xl p-md flex flex-col items-center text-center group cursor-pointer hover:scale-[1.02]">
+<div class="relative mb-md">
+<div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="The WhatsApp application icon, styled as a high-fidelity 3D glassmorphic element with deep green and vibrant lime gradients, featuring realistic light reflections and shadows in a premium dark UI setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoyrayH-ET8JX5ESROawgh_Kn2tjE6-7iN1coKMVz_-qn0TtQUm71pR6K7XRJm6cxCblge_A9bgFsPudM2GHhxDp_doT2ZzBBfUHIVPqaQa_Xax0WYLPMmk2iPmr8vKWH64aa21C4qxHeXEe-r8Ec2u25GutfiDGAKjoSFVIDGYRxwISm2-sQRamnm0fBkm9zfxwB2oDD-Z-lEDlfFXg7Cw7q0LbjRvSr1fwUJ8G0PR4psh3nX4Tt6"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-tertiary rounded-full border-4 border-surface flex items-center justify-center">
+<div class="w-1.5 h-1.5 bg-on-tertiary rounded-full"></div>
+</div>
+</div>
+<h4 class="font-label-md text-headline-md text-on-surface mb-xs">WhatsApp</h4>
+<span class="px-sm py-xs rounded-full bg-tertiary/10 text-tertiary text-label-sm mb-md">Active • 2h left</span>
+<div class="w-full pt-md border-t border-white/5 flex justify-between items-center">
+<span class="text-label-sm text-on-surface-variant">Limit: 3h/day</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- App Card: YouTube -->
+<div class="glass-card rounded-xl p-md flex flex-col items-center text-center group cursor-pointer hover:scale-[1.02]">
+<div class="relative mb-md">
+<div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="The YouTube application icon, reimagined as a premium glowing red crystalline object with subtle 3D depth and elegant light refraction, set against a dark, tech-oriented backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6qNLok2GjfBF_wftTwz-ylXcDrRUlvA1nLvHDwpM8saK_GgP5n4osQZeYQb7AXaJaulGQpptLLIyFlNtXd2wL2GSB9Vd-MRIWksGYS_sC-ABIUmK5yT8i77-Y58FqMZwzmp37uSPjA0ddggfiO7OBysC4zJPzLTumDxCzzmZc9kFVCsJ7GcwhOeOyM9fuvZVAVaAmT7QhzWZIQz1OsWCVQZJdW_t2hQ44hB5PVIU19Bq_EkHlQAAC"/>
+</div>
+</div>
+<h4 class="font-label-md text-headline-md text-on-surface mb-xs">YouTube</h4>
+<span class="px-sm py-xs rounded-full bg-error-container/20 text-error text-label-sm mb-md">Limit Reached</span>
+<div class="w-full pt-md border-t border-white/5 flex justify-between items-center">
+<span class="text-label-sm text-on-surface-variant">Limit: 1h/day</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- App Card: Instagram -->
+<div class="glass-card rounded-xl p-md flex flex-col items-center text-center group cursor-pointer hover:scale-[1.02]">
+<div class="relative mb-md">
+<div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="An Instagram app icon with a luxury finish, featuring a mesh gradient of purple, pink, and orange under a semi-transparent glass layer, glowing softly in a dark mode interface environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWJMgqWBN0-AKsn8lAs91sfLjwfkjUIfsJ5jUE3ignK9S9hAI4MsEZ4sUugqfYDM0ZkWam5sq7cxp3xRQKGq9jsTFX8j79-kuyzenkyX_UZN21ClAA9PpJ8Pz7p_-ZwZDGTsdLqnbJ-it55-7iyel77PjY6LQ3R4LmhR4gcOvRrMiWtDJFWu44UBmthlmGZ-0uaoRXA2IaMt-VB4g2ZZjhGFxXyOOxGSlRv6v46a6RNnkMaZFA1j07"/>
+</div>
+</div>
+<h4 class="font-label-md text-headline-md text-on-surface mb-xs">Instagram</h4>
+<span class="px-sm py-xs rounded-full bg-white/5 text-on-surface-variant text-label-sm mb-md">No Limit</span>
+<div class="w-full pt-md border-t border-white/5 flex justify-between items-center">
+<span class="text-label-sm text-on-surface-variant">Tracking only</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="monitoring">monitoring</span>
+</div>
+</div>
+<!-- App Card: TikTok -->
+<div class="glass-card rounded-xl p-md flex flex-col items-center text-center group cursor-pointer hover:scale-[1.02]">
+<div class="relative mb-md">
+<div class="w-16 h-16 rounded-2xl overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="A stylized TikTok app icon rendered in a futuristic cyberpunk aesthetic with cyan and magenta neon outlines on a deep obsidian base, designed for a high-end application management dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsUoVvnkoFm7hbam0vo7cd31kMxLxyUs8No2p0eG87t_nZgKCqS6k9mx7F6PyNHc-TxXM2rmdtxxSlmqBBhe6y7F7rrt476t7rPh5o4q8YmiZl56RzzWqVE1Z6m022jD-O6JSWn8TSHQsR5Rx7YLa59Ae959WUPMDS0yT4jrWHtEgvbLaRh4VmDRXR9snMSYeVKbzC-s2bi9saXCQNiFyTUATW0e5FA6JS_aN57Euza1AJOIZ1mbBZ"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-primary rounded-full border-4 border-surface flex items-center justify-center status-glow-active">
+<div class="w-1.5 h-1.5 bg-on-primary rounded-full animate-ping"></div>
+</div>
+</div>
+<h4 class="font-label-md text-headline-md text-on-surface mb-xs">TikTok</h4>
+<span class="px-sm py-xs rounded-full bg-primary/10 text-primary text-label-sm mb-md">Active • 15m left</span>
+<div class="w-full pt-md border-t border-white/5 flex justify-between items-center">
+<span class="text-label-sm text-on-surface-variant">Limit: 30m/day</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="timer">timer</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Action Float (Mobile) -->
+<div class="md:hidden fixed bottom-6 right-6 z-50">
+<button class="w-14 h-14 rounded-full primary-gradient-btn text-white flex items-center justify-center shadow-2xl">
+<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="md:ml-64 bg-transparent border-t border-white/5 w-full py-lg mt-auto">
+<div class="max-w-container-max mx-auto px-md flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex items-center gap-sm">
+<span class="font-display text-label-md font-semibold text-on-surface">Limited Afk</span>
+<span class="font-label-sm text-on-surface-variant opacity-50">© 2024 Professional ADB Utility.</span>
+</div>
+<div class="flex gap-lg">
+<a class="font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Github</a>
+</div>
+</div>
+</footer>
+<!-- Interactive Layer for Micro-interactions -->
+<script>
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

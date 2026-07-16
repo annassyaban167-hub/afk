@@ -1,0 +1,38 @@
+{
+  "apps": [
+    {
+      "id": "6876eeb8",
+      "name": "discord",
+      "packageName": "com.discord",
+      "durationMin": 1
+    },
+    {
+      "id": "054a4f3c",
+      "name": "discord",
+      "packageName": "com.discord",
+      "durationMin": 30
+    },
+    {
+      "id": "82fb4325",
+      "name": "discord",
+      "packageName": "com.discord",
+      "durationMin": 30
+    },
+    {
+      "id": "f9f7c59a",
+      "name": "discord",
+      "packageName": "com.discord",
+      "durationMin": 30
+    },
+    {
+      "id": "b17b4687",
+      "name": "Whatsapp",
+      "packageName": "com.whatsapp",
+      "durationMin": 30
+    }
+  ],
+  "global": {
+    "adbAddress": "192.168.100.45:39911",
+    "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
+  }
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">App Blocker</string>
+    <string name="accessibility_description">AFK App Blocker usage stats accessibility helper to manage foreground app execution constraints.</string>
+</resources>
